@@ -95,9 +95,9 @@ app.get("/all-thoughts", (req, res) => {
 });
 
 // Finds first document matching thought parameter and deletes
-app.delete("/delete-one-user/:thoughtText", (req, res) => {
+app.delete("/delete-thought/:id", (req, res) => {
   Thought.findOneAndDelete(
-    { thoughtText: req.params.thoughtText },
+    { id: req.params.id },
     (err, result) => {
       if (result) {
         res.status(200).json(result);
@@ -108,6 +108,19 @@ app.delete("/delete-one-user/:thoughtText", (req, res) => {
       }
     }
   );
+});
+
+// Update thought
+app.put("/update-thought/:id", async (req, res) => {
+  Thought.findOneAndUpdate({ id: req.params.id }, req.body, (err, result) => {
+    if (result) {
+      res.status(200).json(result);
+      console.log(`Updated: ${result}`);
+    } else {
+      console.log('Uh Oh, something went wrong');
+      res.status(500).json({ message: 'something went wrong' });
+    }
+  });
 });
 
 db.once("open", () => {
