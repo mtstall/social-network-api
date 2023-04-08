@@ -12,61 +12,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(routes);
 
-// USER ROUTES
-// Creates a new user
-app.post("/api/users", (req, res) => {
-  const newUser = new User({
-    username: req.body.username,
-    email: req.body.email,
-  });
-  newUser.save();
-  if (newUser) {
-    res.status(201).json(newUser);
-  } else {
-    console.log("Uh Oh, something went wrong");
-    res.status(500).json({ error: "Something went wrong" });
-  }
-});
-
-// Finds all users
-app.get("/api/users", (req, res) => {
-  // Using model in route to find all documents that are instances of that model
-  User.find({}, (err, result) => {
-    if (result) {
-      res.status(200).json(result);
-    } else {
-      console.log("Uh Oh, something went wrong");
-      res.status(500).json({ error: "Something went wrong" });
-    }
-  });
-});
-
-// Finds user by id
-app.get("/api/users/:id", (req, res) => {
-  // Using model in route to find all documents that are instances of that model
-  User.find({_id: req.params.id}, (err, result) => {
-    if (result) {
-      res.status(200).json(result);
-    } else {
-      console.log("Uh Oh, something went wrong");
-      res.status(500).json({ error: "Something went wrong" });
-    }
-  });
-});
-
-// Finds first document matching username parameter and deletes
-app.delete("/api/users/:id", (req, res) => {
-  User.findOneAndDelete({ _id: req.params.id }, (err, result) => {
-    if (result) {
-      res.status(200).json(result);
-      console.log(`Deleted: ${result}`);
-    } else {
-      console.log("Uh Oh, something went wrong");
-      res.status(500).json({ error: "Something went wrong" });
-    }
-  });
-});
-
 // Update user
 app.put("/api/users/:id", async (req, res) => {
   User.findOneAndUpdate({ _id: req.params.id }, req.body, (err, result) => {
