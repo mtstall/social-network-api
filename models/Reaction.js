@@ -24,6 +24,8 @@ const reactionSchema = new Schema(
     }
 )
 
-// creating reaction data
+reactionSchema.virtual("formatDate").get(function() {
+    return `${this.createdAt}`;
+  });
 
 module.exports = reactionSchema;
