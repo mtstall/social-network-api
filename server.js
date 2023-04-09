@@ -12,19 +12,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(routes);
 
-// Add a new friend
-app.post("/api/users/:userId/friends/:friendId", (req, res) => {
-  User.findOneAndUpdate({ _id: req.params.userId }, { $addToSet: { friends: req.params.friendId  } }, (err, result) => {
-    if (result) {
-      res.status(200).json(result);
-      console.log(`Added: ${result}`);
-    } else {
-      console.log('Uh Oh, something went wrong');
-      res.status(500).json({ message: 'something went wrong' });
-    }
-  });
-});
-
 // Delete a friend
 app.delete("/api/users/:userId/friends/:friendId", (req, res) => {
   User.findOneAndUpdate({ _id: req.params.userId }, { $pull: { friends: req.params.friendId  } }, (err, result) => {
