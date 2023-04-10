@@ -13,7 +13,8 @@ Run `npm install` to install all required dependencies.
 `"express": "^4.18.2"`  
 `"mongoose": "^6.9.2"`
 ## Usage
-Use these routes to share thoughts, react to others' thoughts, and create a friends list.
+Use these routes to share thoughts, react to others' thoughts, and create a friends list.  
+View a demo of the routes being tested in Insomnia [here](https://drive.google.com/file/d/1Br6aLkJ5SQzaHqcd5reH3esw1hlRwCz0/view).
 ## License
 This application is covered under the MIT license.
 ## Contributing
