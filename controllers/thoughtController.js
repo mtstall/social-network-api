@@ -21,11 +21,24 @@ module.exports = {
   // create a new thought
   createThought(req, res) {
     Thought.create(req.body)
-      .then((dbUserData) => 
-      !dbUserData
-      ? res.status(404).json({ message: 'Could not create' })
-      : res.json(dbUserData))
-      .catch((err) => res.status(500).json(err));
+    .then((thought) => {
+        return User.findOneAndUpdate(
+          { _id: req.body.userId },
+          { $addToSet: { thoughts: thought._id } }, // making sure we are adding this thought id to the thought array
+          { new: true }
+        );
+      })
+      .then((user) =>
+        !user
+          ? res.status(404).json({
+              message: 'Video created, but found no user with that ID',
+            })
+          : res.json('Created the thought 🎉')
+      )
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
   // delete thought
   deleteThought(req, res) {
