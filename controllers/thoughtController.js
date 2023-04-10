@@ -74,7 +74,13 @@ module.exports = {
   },
   // delete a reaction
   deleteReaction(req, res) {
-    User.findOneAndUpdate({ _id: req.params.thoughtId }, { $pull: { reactions: {_id: req.params.reactionId}  } }, (err, result) => {
+    console.log(req.params.reactionId);
+    console.log(req.params.thoughtId);
+    User.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $pull: { reactions: {_id: req.params.reactionId}  } },
+        (err, result) => {
+        console.log(result);
         if (result) {
           res.status(200).json(result);
           console.log(`Deleted: ${result}`);
