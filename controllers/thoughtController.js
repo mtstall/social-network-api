@@ -87,20 +87,18 @@ module.exports = {
   },
   // delete a reaction
   deleteReaction(req, res) {
-    console.log(req.params.reactionId);
-    console.log(req.params.thoughtId);
-    User.findOneAndUpdate(
+    Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
-        { $pull: { reactions: {_id: req.params.reactionId}  } },
-        (err, result) => {
-        console.log(result);
-        if (result) {
-          res.status(200).json(result);
-          console.log(`Deleted: ${result}`);
-        } else {
-          console.log('Uh Oh, something went wrong');
-          res.status(500).json({ message: 'something went wrong' });
-        }
-      });
+        { $pull: { reactions: {_id: req.params.reactionId } } },
+        { runValidators: true, new: true }
+        )
+          .then((thought) =>
+            !thought
+              ? res
+                  .status(404)
+                  .json({ message: 'No thought found with that ID :(' })
+              : res.json(thought)
+          )
+          .catch((err) => res.status(500).json(err));
   }
 };
